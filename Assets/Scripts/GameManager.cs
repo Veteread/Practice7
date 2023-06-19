@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
         if (cannon == 5)
         {
             winScreen.SetActive(true);
+            cannon = 4;
         }        
     }
     private void AddHarv()
