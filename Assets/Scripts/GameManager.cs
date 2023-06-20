@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -47,9 +44,6 @@ public class GameManager : MonoBehaviour
     private int sumCannon;
     private int barracsOn;
     private int forgeOn;
-    
-
-
     public float peasantTimer = -2;
     public float warriorTimer = -2;
     public float cannonTimer = -2;
@@ -83,8 +77,25 @@ public class GameManager : MonoBehaviour
         if (cannon == 5)
         {
             winScreen.SetActive(true);
-            cannon = 4;
+            NextNewGame();
         }        
+    }
+    public void NextNewGame()
+    {
+        cannon = 0;
+        warriorsCount = 0;
+        peasantCount = 5;
+        wheatCount = 50;
+        freedomOfRaid = 3;
+        barracsOn = 0;
+        forgeOn = 0;
+        raidTimer = 0;
+        nextRaid = 0;
+        sumRaid = -1;
+        NextRaidText.text = nextRaid.ToString();
+        enabled = false;
+        barracsButton.interactable = false;
+        forgeButton.interactable = false;
     }
     private void AddHarv()
     {
@@ -171,11 +182,12 @@ public class GameManager : MonoBehaviour
     {
         if (warriorsCount <= 0 && cannon <= 0 && peasantCount <=0)
         {
-            Time.timeScale = 0;
+            enabled = false;
             GameOverScreen.SetActive(true);
             peasantButton.interactable = false;
             warriorButton.interactable = false;
             GameOverResult();
+            NextNewGame();
         }
     }
         private void NoMoney()
@@ -285,7 +297,7 @@ public class GameManager : MonoBehaviour
         {
             cannonButton.interactable = false;
         }
-            wheatCount -= 100; //Стоимость пушки
+            wheatCount -= 100; 
             cannonTimer = cannonCreateTime;
             cannonButton.interactable = false;                
     }
