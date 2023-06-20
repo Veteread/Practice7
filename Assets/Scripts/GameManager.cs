@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -37,7 +39,7 @@ public class GameManager : MonoBehaviour
     public float raidMaxTime;
     public int raidIncrease;
     public int nextRaid;
-    private int sumRaid=-1;
+    private int sumRaid=-2;
     private int sumHarv;
     private int sumPeasant;
     private int sumWarrior;
@@ -50,11 +52,12 @@ public class GameManager : MonoBehaviour
     private float raidTimer;
     public GameObject winScreen;
     public GameObject GameOverScreen;
+    public GameObject GameScreen;
     public Text NextRaidText;
     public int freedomOfRaid = 10;
     
     void Start()
-    {
+    {       
         UpdateText();
         raidTimer = raidMaxTime;
     }
@@ -76,12 +79,15 @@ public class GameManager : MonoBehaviour
     {
         if (cannon == 5)
         {
-            winScreen.SetActive(true);
+            winScreen.SetActive(true);            
+            warriorButton.interactable = false;
+            cannonButton.interactable = false;            
             NextNewGame();
+
         }        
     }
     public void NextNewGame()
-    {
+    {       
         cannon = 0;
         warriorsCount = 0;
         peasantCount = 5;
@@ -91,11 +97,17 @@ public class GameManager : MonoBehaviour
         forgeOn = 0;
         raidTimer = 0;
         nextRaid = 0;
-        sumRaid = -1;
-        NextRaidText.text = nextRaid.ToString();
-        enabled = false;
+        sumRaid = -2;
+        sumCannon = 0;
+        sumHarv = 0;
+        sumPeasant = 0;
+        sumWarrior = 0;
+        NextRaidText.text = nextRaid.ToString();              
         barracsButton.interactable = false;
         forgeButton.interactable = false;
+        warriorButton.interactable = false;
+        cannonButton.interactable = false;
+        enabled = false;
     }
     private void AddHarv()
     {
@@ -182,12 +194,11 @@ public class GameManager : MonoBehaviour
     {
         if (warriorsCount <= 0 && cannon <= 0 && peasantCount <=0)
         {
-            enabled = false;
+            GameScreen.SetActive(false);
             GameOverScreen.SetActive(true);
-            peasantButton.interactable = false;
-            warriorButton.interactable = false;
             GameOverResult();
             NextNewGame();
+            enabled = false;
         }
     }
         private void NoMoney()
